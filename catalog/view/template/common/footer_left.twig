@@ -1,0 +1,10 @@
+{% if modules %}
+<aside id="column-left1">
+	{% if logo %}<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>{% else %}
+          {# <h1><a href="{{ home }}">{{ name }}</a></h1> #}
+          {% endif %}
+  {% for module in modules %}
+  {{ module }}
+  {% endfor %}
+</aside>
+{% endif %}

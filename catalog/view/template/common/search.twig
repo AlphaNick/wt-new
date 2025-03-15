@@ -1,0 +1,51 @@
+<li id="search" class="desktop-search">
+  {# <div class="d-search">
+  <button id="search_toggle" class="search-toggle" data-toggle="collapse" onclick="openSearch()">
+        <svg><use xlink:href="#hsearch" /></svg>
+  </button>
+</div> #}
+<div id="search" class="wbSearch">
+<div class="input-group">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-primary btn-lg">{#<svg><use xlink:href="#hsearch" /></svg> #}<img src="image/catalog/search.png" alt="search"> </button>
+      {# <a href="javascript:void(0)" class="closebtn close-nav" onclick="closeSearch()"><i class="fa fa-close"></i></a> #}
+    </div>
+  <input type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" class="search_query form-control input-lg webibazaar-search" />
+    
+  <!-- workdo Search Start  -->
+        <div class="webibazaar-search text-left">
+          <div class="webibazaar-search-loader" style="display: none;"><div class="loaders"></div></div><!-- Add Loader -->
+          <div class="webibazaar-search-result"><!-- search results --></div>
+        </div>
+        <!-- workdo Search End  -->
+</div>
+<div id="search_block_top">
+  <select id="webibazaar-search-category">
+      <option value="0">{{ text_category }}</option>
+      {% for category_1 in categories %}
+        {% if category_1.category_id == category_id %}
+          <option value="{{ category_1.category_id }}" selected="selected">{{ category_1.name }}</option>
+        {% else %}
+          <option value="{{ category_1.category_id }}">{{ category_1.name }}</option>
+        {% endif %}
+        {% for category_2 in category_1.children %}
+          {% if category_2.category_id == category_id %}
+            <option value="{{ category_2.category_id }}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2.name }}</option>
+          {% else %}
+            <option value="{{ category_2.category_id }}">&nbsp;&nbsp;&nbsp;&nbsp;{{ category_2.name }}</option>
+          {% endif %}
+          {% for category_3 in category_2.children %}
+            {% if category_3.category_id == category_id %}
+              <option value="{{ category_3.category_id }}" selected="selected">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}
+              </option>
+            {% else %}
+              <option value="{{ category_3.category_id }}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ category_3.name }}</option>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    </select>
+
+</div>
+</li>

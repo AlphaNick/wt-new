@@ -1,0 +1,123 @@
+<form method="post" data-oc-toggle="ajax" data-oc-load="{{ cart }}" data-oc-target="#header-cart">
+  <div class="product-thumb">
+    <div class="image col-sm-5"><a href="{{ href }}"><img src="{{ thumb }}" alt="{{ name }}" title="{{ name }}" class="img-fluid"/></a></div>
+    <div class="caption col-sm-7">
+       {# {% if review_status %}
+                <div class="rating">
+                  {% for i in 1..5 %}
+                      {% if rating < i %}
+                      <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
+                    {% else %}
+                      <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
+                    {% endif %}
+                    {% endfor %}
+               
+                    <span class="rate-tot">({{ tab_review }})</span>
+                </div>
+              {% endif %} #}
+        <h4 class="protitle"><a href="{{ href }}">{{ name }}</a></h4>
+        <p class="catlist-des">{{ description }}</p>
+        <div class="pro-varient">
+         {# Workdo Start #} 
+                          <div class="webi-main">
+                              {% if product.options %}
+                                <div class="wbhvariant">
+                                <input type="hidden" name="product_id" value="{{ product.product_id }}"/>
+                                {% for option in product.options %}
+                                  {% if option.type == 'checkbox' %}
+                                  <div class="form-group{% if option.required %} required {% endif %} checkbox_input">
+                                    <label class="control-label">{{ option.name }}</label>
+                                    <div id="input-option{{ option.product_option_id }}" class="size"> 
+                                      {% for option_value in option.product_option_value %}
+                                      <div class="checkbox">
+                                        <label class="size-option">
+                                          {% if option_value.raw_price %}
+                                            {% set raw_price = option_value.raw_price %}
+                                          {% else %}
+                                            {% set raw_price = 0 %}
+                                          {% endif %}
+                                          <input class="webi-option-click" type="checkbox" name="option[{{ option.product_option_id }}][]" value="{{ option_value.product_option_value_id }}" data-rawPrice={{raw_price}} />
+                                          {% if option_value.image %} <img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" /> {% endif %}
+                                           <span>{{ option_value.name }}</span>
+                                          {% if option_value.price %}
+                                          {# ({{ option_value.price_prefix }}{{ option_value.price }}) #}
+                                          {% endif %} </label>
+                                      </div>
+                                      {% endfor %}
+                                    </div>
+                                  </div>
+                                  {% endif %}
+                                  {% if option.type == 'select' %}
+                                  <div class="form-group{% if option.required %} required {% endif %}">
+                                    <label class="control-label" for="input-option{{ option.product_option_id }}">{{ option.name }}</label>
+                                    <div id="input-option{{ option.product_option_id }}" class="select"> 
+                                    <select name="option[{{ option.product_option_id }}]" id="input-option{{ option.product_option_id }}" class="webi-option-select form-control">
+                                      <option value="">{{ text_select }}</option> 
+                                      {% for option_value in option.product_option_value %}
+                                        <option value="{{ option_value.product_option_value_id }}">{{ option_value.name }}</option>
+                                      {% endfor %}
+                                    </select>
+                                    </div>
+                                  </div>
+                                  {% endif %}
+                                  {% if option.type == 'radio' %}
+                                  <div class="form-group{% if option.required %} required {% endif %}">
+                                    <label class="control-label">{{ option.name }}</label>
+                                    <div id="input-option{{ option.product_option_id }}" class="custom-radio">
+                                      {% for option_value in option.product_option_value %}
+                                      <div class="radio">
+                                        <label class="color-option">
+                                          <input class="webi-option-click" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" />
+                                          {% if option_value.image %}<img src="{{ option_value.image }}" alt="{{ option_value.name }} {% if option_value.price %} {{ option_value.price_prefix }} {{ option_value.price }} {% endif %}" class="img-thumbnail" />{% endif %}                  
+                                          <span>{{ option_value.name }}</span>
+                                          {% if option_value.price %}
+                                          ({{ option_value.price_prefix }}{{ option_value.price }})
+                                          {% endif %} </label>
+                                      </div>
+                                      {% endfor %}
+                                    </div>
+                                  </div>
+                                  {% endif %}
+                                 
+                                {% endfor %}
+                              </div>
+                              {% endif %}
+                          </div>
+                          {# Workdo End #}
+        
+         {# <div class="homeqt">
+             <div class="homeqtinner">
+              <button type="button" onclick="qty.minus('{{ product_id }}')" class="form-control pull-left btn-number btnminus dis-{{ product_id }}" disabled="disabled">
+              <span class="fa fa-minus"></span>
+            </button>
+            <input name="quantity" class="addhqty" type="text" value="1" size="2" min="1" max="999" id="input-quantity-{{ product_id }}" class="form-control input-number pull-left" />
+            <button type="button" onclick="qty.plus('{{ product_id }}')" class="form-control pull-left btn-number btnplus">
+              <span class="fa fa-plus"></span>
+            </button>
+            </div>
+          </div> #}
+        </div>
+        {% if price %}
+          <div class="price">
+            {% if not special %}
+              <span class="price-new">{{ price }}</span>
+            {% else %}
+              <span class="price-new">{{ special }}</span> <span class="price-old">{{ price }}</span>
+            {% endif %}
+            {% if tax %}
+              <span class="price-tax">{{ text_tax }} {{ tax }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+       
+    
+      <div class="button-group">
+        <button type="submit" formaction="{{ add_to_cart }}" data-bs-toggle="tooltip" title="{{ button_cart }}"><svg><use xlink:href="#pcart"></use></svg></button>
+        <button type="submit" formaction="{{ add_to_wishlist }}" data-bs-toggle="tooltip" title="{{ button_wishlist }}"><svg><use xlink:href="#heart"></use></svg></button>
+        <button type="submit" formaction="{{ add_to_compare }}" data-bs-toggle="tooltip" title="{{ button_compare }}"><svg><use xlink:href="#compare"></use></svg></button>
+      </div>
+    </div>
+    <input type="hidden" name="product_id" value="{{ product_id }}"/>
+    <input type="hidden" name="quantity" value="{{ minimum }}"/>
+  </div>
+</form>

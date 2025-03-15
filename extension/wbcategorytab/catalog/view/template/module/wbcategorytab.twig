@@ -1,0 +1,34 @@
+<div class="tab-pro">
+<div class="container">
+<div class="row">
+  <div class="col-xs-12">
+  <h2 class="heading"> 
+    <span>Top Products</span>
+    <a class="btn btn-primary btn-section" href="#" tabindex="0">Show more product<img alt="service icon" src="image/catalog/right-arrow.svg"></a>
+  </h2>
+    <ul class="nav nav-tabs pro-tab text-right">
+             {% set i = 0 %}
+          {% for category in categories %}
+            <li><a href="#tab-{{loop.index}}" data-bs-toggle="tab" {% if loop.index0 == 0 %}class="active"{% endif %}>{{ category.category }}</a></li>
+            {% set i = i + 1 %}
+          {% endfor %}
+        </ul>
+<div class="tab-content" role="tablist">
+{% for category in categories %}
+<div class="tab-pane fade  {% if loop.index0 == 0 %} show active {% endif %}" id="tab-{{loop.index}}">
+<div class="rless">
+  <div class="feature">
+  {% for product in category.products %}
+    <div class="col cless">{{ product }}</div>
+  {% endfor %}
+
+</div>
+</div>
+
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>

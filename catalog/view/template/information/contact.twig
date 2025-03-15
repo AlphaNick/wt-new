@@ -1,0 +1,184 @@
+{{ header }}
+<div class="bg-white pb-30">
+<div class="contact-top-bg pb-30">
+	<div class="container">
+		<div class="">
+<!-- Breadcrumb -->
+<div class="d-flex justify-content-between align-items-center back-page">
+  <div class="">
+  <div class="back-to-home">
+      <a href="{{ home }}"><img src="image/catalog/back-to-home.svg" alt="Back to home"> &nbsp <span> {{ back_to_main }}</span></a>
+   </div>  
+  </div>
+  <div class="">
+    <ul class="breadcrumb ">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>  
+  </div> 
+</div>
+			<!-- Breadcrumb end -->
+			<h1 class="other-title mb-3">{{ heading_title }}</h1> 
+			<div class="contact-desc">
+				<p>{{ contact_desc }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="information-contact" class="container">
+	<div class="row">
+		{{ column_left }}
+		<div id="content" class="col">{{ content_top }}
+			
+			{# <h3>{{ text_location }}</h3> #}
+			<div class="row">
+				<div class="col-md-7 col-xs-12 wbcntleft">				
+					<div class="card">
+						<div class="card-body">	
+						<div class="row">
+							<div class="col-md-6 col-xs-12">
+								<div class="contact-store-information">
+									<h4>{{ text_telephone }}</h4>
+									<div class="store-inf">
+										{{ telephone }}
+									</div>
+								</div>
+								<div class="contact-store-information">
+									<h4>{{ text_mail }}</h4>
+									<div class="store-inf">
+										{{ store_mail }}
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6 col-xs-12">
+								<div class="contact-store-informations">
+									<h4>{{ store_add }}</h4>
+									<div class="store-inf">
+										{{ store }}
+										<address>
+											{{ address }}
+										</address>
+									</div>
+								</div>		
+							</div>
+						</div>
+							{# 	{% if image %}
+									<div class="col-sm-3"><img src="{{ image }}" alt="{{ store }}" title="{{ store }}" class="img-thumbnail"/></div>
+								{% endif %} #}
+							<div>
+								
+								
+								{% if geocode %}
+									<a href="https://maps.google.com/maps?q={{ geocode|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank" class="btn btn-info"><i class="fas fa-map-marker"></i> {{ button_map }}</a>
+								{% endif %}
+							</div>							
+							<div class="col-sm-3"><strong>{{ text_email }}</strong>
+								<br/>
+								{{ store_email }}
+								<br/>
+								<br/>
+							</div>
+							<div class="col-sm-3">
+								{% if open %}
+									<strong>{{ text_open }}</strong>
+									<br/>
+									{{ open }}
+									<br/>
+									<br/>
+								{% endif %}
+								{% if comment %}
+									<strong>{{ text_comment }}</strong>
+									<br/>
+									{{ comment }}
+								{% endif %}
+							</div>							
+						</div>
+					</div>
+				</div>
+			<div class="contact col-md-5 col-xs-12">
+			{% if locations %}
+				<h2 class="other-title">{{ text_store }}</h2>
+				<div id="accordion" class="card-group">
+					{% for location in locations %}
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title pt-2"><a href="#collapse-location-{{ location.location_id }}" class="accordion-toggle" data-bs-toggle="collapse" data-bs-parent="#accordion">{{ location.name }} <i class="fas fa-caret-down"></i></a></h4>
+							</div>
+							<div class="card-collapse collapse" id="collapse-location-{{ location.location_id }}">
+								<div class="card-body">
+									<div class="row">
+										{% if location.image %}
+											<div class="col-sm-3"><img src="{{ location.image }}" alt="{{ location.name }}" title="{{ location.name }}" class="img-thumbnail"/></div>
+										{% endif %}
+										<div class="col-sm-3"><strong>{{ location.name }}</strong>
+											<br/>
+											<address>
+												{{ location.address }}
+											</address>
+											{% if location.geocode %}
+												<a href="https://maps.google.com/maps?q={{ location.geocode|url_encode }}&hl={{ geocode_hl }}&t=m&z=15" target="_blank" class="btn btn-info"><i class="fas fa-map-marker"></i> {{ button_map }}</a>
+											{% endif %}
+										</div>
+										<div class="col-sm-3"><strong>{{ text_telephone }}</strong>
+											<br>
+											{{ location.telephone }}
+											<br/>
+											<br/>
+										</div>
+										<div class="col-sm-3">
+											{% if location.open %}
+												<strong>{{ text_open }}</strong>
+												<br/>
+												{{ location.open }}
+												<br/>
+												<br/>
+											{% endif %}
+											{% if location.comment %}
+												<strong>{{ text_comment }}</strong>
+												<br/>
+												{{ location.comment }}
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+				</div>
+			</div>
+			{% endif %}
+			<h3 class="other-title">{{ text_contact }}</h3>
+			<form id="form-contact" action="{{ send }}" method="post" data-oc-toggle="ajax">
+				<fieldset>					
+					<div class="mb-3 required">
+						<label for="input-name" class="col-form-label">{{ entry_name }}</label>
+					
+							<input type="text" name="name" value="{{ name }}" id="input-name" class="form-control"/>
+							<div id="error-name" class="invalid-feedback"></div>
+						
+					</div>
+					<div class="mb-3 required">
+						<label for="input-email" class="col-form-label">{{ entry_email }}</label>
+							<input type="text" name="email" value="{{ email }}" id="input-email" class="form-control"/>
+							<div id="error-email" class="invalid-feedback"></div>
+					</div>
+					<div class="mb-3 required">
+						<label for="input-enquiry" class="col-form-label">{{ entry_enquiry }}</label>
+							<textarea name="enquiry" rows="10" id="input-enquiry" class="form-control"></textarea>
+							<div id="error-enquiry" class="invalid-feedback"></div>
+					</div>
+					{{ captcha }}
+				</fieldset>
+				<div class="d-inline-block pt-2 pd-2 w-100">
+					<div class="text-end">
+						<button type="submit" class="btn btn-primary">{{ button_submit }}</button>
+					</div>
+				</div>
+			</form>
+			{{ content_bottom }}</div>
+		{{ column_right }}</div>
+</div>
+</div>
+{{ footer }}

@@ -1,0 +1,62 @@
+<div class="container_wb_megamenu">
+<div id="stamenu">
+{% if categories %}
+    <nav id="menu" class="navbar">
+       <div class="navbar-expand-md">
+      <button type="button" class="btn-navbar navbar-toggler" onclick="openNav()" data-bs-toggle="collapse" data-bs-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
+    </div> 
+    <div id="wr-menu-icon ">
+     <div class="wrmenu collapsed" data-bs-toggle="collapse" data-bs-target="#under-menu" aria-expanded="false" aria-controls="collapseExample">
+     <button type="button" class="btn-navbar navbar-toggle">
+      <img alt="shop" src="image/catalog/shop.png"> <span class="cate">Brows All Categories</span><i class="fa fa-angle-down pull-right"></i>
+    </button>  
+                
+          </div>
+        </div>
+  <div id="mySidenav" class="sidenav menu-vertical">
+  <div id="under-menu" class="collapse">
+       <div class="close-nav">
+          <span class="categories">{{ text_category }}</span>
+          <a href="javascript:void(0)" class="closebtn float-end" onclick="closeNav()"><i class="fa fa-close"></i></a>
+        </div>     
+      <div class="navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          {% for category in categories %}
+            {% if category.children %}
+              <li class="nav-item dropdown"><a href="{{ category.href }}" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}"> {{ category.name }}<i class="fa fa-angle-down enaleng"></i></a>
+                <div class="dropdown-menu">
+                  <div class="dropdown-inner">
+                    {% for children in category.children|batch(category.children|length / category.column|round(1, 'ceil')) %}
+                      <ul class="list-unstyled">
+                        {% for child in children %}
+                         <!--3rd level-->
+                          <li class="dropdown-submenu"><a href="{{ child.href }}" class="nav-link submenu-title">{{ child.name }}</a>
+                            {% if child.grand_childs %}
+                            <ul class="list-unstyled grand-child">
+                              {% for grand_child in child.grand_childs %}
+                              <li> <a href="{{ grand_child.href }}"> {{grand_child.name}} </a> </li>
+                              {% endfor %}
+                            </ul>
+                            {% endif %}
+                          </li>
+                           <!--3rd level over-->
+                        {% endfor %}
+                      </ul>
+                    {% endfor %}
+                  </div>
+                  <a href="{{ category.href }}" class="see-all">{{ text_all }} {{ category.name }}</a>
+                </div>
+              </li>
+            {% else %}
+              <li class="nav-item"><a href="{{ category.href }}" class="nav-link"><img src="{{ category.image }}" alt="{{ category.name }}" title="{{ category.name }}"> {{ category.name }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+    </nav>
+{% endif %}
+<div class="w3-overlay w3-animate-opacity"  onclick="closeNav()" style="cursor:pointer" id="myOverlay"></div>
+</div>
+</div>

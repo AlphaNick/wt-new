@@ -1,0 +1,15 @@
+<div class="bg-white section-mt">
+<div class="container">
+	<div class="row">
+		<h2 class="center-heading">{{ heading_title }}</h2>
+		<div class="csection-bottomtitle text-center">
+			What's not to love about a supermarket that is both self-service and hypermarket?
+		</div>		
+	</div>
+	  <div class="feature rless">
+		  {% for product in products %}
+		    <div class="col cless">{{ product }}</div>
+		  {% endfor %}
+	  </div>
+	</div>
+</div>

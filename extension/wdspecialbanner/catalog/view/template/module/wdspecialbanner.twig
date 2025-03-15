@@ -1,0 +1,20 @@
+<div class="spacial-banner">
+  <div class="row">
+        {% for banner in banners %}
+        <div class="specilban col-md-6">
+          <div class="beffect">
+            {% if banner.link %}
+              <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/></a>
+            {% else %}
+              <img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/>
+            {% endif %}
+          <div class="specialtxt">
+            <div class="specialdesc">
+              {{ banner.description }}  
+            </div>
+          </div>
+      </div>
+    </div>
+        {% endfor %}
+</div>
+</div>

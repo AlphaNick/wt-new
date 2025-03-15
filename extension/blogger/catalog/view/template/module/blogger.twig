@@ -1,0 +1,75 @@
+<div class="blog-bg">
+<div class="container">
+<div class="row">
+    <div class="box blog_workdo">
+    <div class="blog-head-section">
+        <div class="top-subtitle">
+            Foodmart
+        </div>
+        <div class="blog-main-title">
+            <h2>{# {{ heading_title }} #} Blog & Articles</h2>
+        </div>
+        <div class="blog-bottom-title">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+        </div>
+    </div>
+        <div class="box-content">
+            <div class="box-product">
+            <div class="rless">
+                <div class="wbblog">
+                {% for blog in blogs %}
+                    <div class="product-block  cless">
+                         <div class="blogshadow blog-thumbnail">
+                        {% if blog.image %}
+                            <div class="blog-left">
+                                <div class="workdo-blog-image">
+                                    <img src="{{ blog.image }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-fluid" />
+                                    <div class="blog-post-image-hover"> </div>
+                                    {# <div class="workdo_post_hover">
+                                        <div class="blog-ic">
+                                        <a class="icon zoom" title="Click to view Full Image " href="{{ blog.image }}" data-lightbox="example-set"><i class="fa fa-search"></i></a>
+                                        <a class="icon readmore_link" title="Click to view Read More " href="{{ blog.href }}"><i class="fa fa-link"></i></a>
+                                        </div>
+                                    </div> #}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="blog-right">                        
+                            <h4><a href="{{ blog.href }}">{{ blog.title }}</a> </h4>
+                            <div class="workdo-post-author">
+                                {# <span class="write-comment"> <a href="{{ blog.href }}">{{ blog.total_comments }} {{ entry_comment }}</a> </span> #}
+                            </div>
+                            <div class="blog-desc">{{ blog.description }}</div>
+                            <div class="blog-bottom">
+                                <div class="read_link"> 
+                                <a class="btn btn-primary read_more" href="{{ blog.href }}">{{ text_read_more }} <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                </div>
+                                <div class="date-time blogdt">
+                                    <span class="date-time">{{ blog.date_added }}</span>
+                                </div>
+                            </div>
+                            
+                            
+                              {#  <div class="view-blog">
+                                    <div class="read-more">
+                                        <a href="{{ blog.href }}">
+                                            <i class="fa fa-link"></i>{{ text_read_more }}
+                                        </a>
+                                    </div>
+                                </div> #} 
+                        </div>
+                        {# <div class="buttons-see-all text-center">
+                            <button type="button" onclick="location='{{ all_blogs }}';" class="btn btn-primary">{{ button_all_blogs }}</button>
+                        </div> #}
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+</div>
+</div>

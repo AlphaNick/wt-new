@@ -1,0 +1,19 @@
+<div class="logoslider section-mt"> 
+  <div class="container"> 
+    <div class="row"> 
+      <h2 class="heading"> <span>Our Partners</span></h2>
+    </div>
+      <div class="wdlogoslider rless">
+          {% for banner in banners %}           
+              <div class="logoimg col cless">
+              {% if banner.link %}
+                <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-fluid"/></a>
+              {% else %}
+                <img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-fluid"/>
+              {% endif %}
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+  

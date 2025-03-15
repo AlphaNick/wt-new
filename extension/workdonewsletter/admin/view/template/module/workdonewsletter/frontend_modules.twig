@@ -1,0 +1,181 @@
+{{ header }}
+{{ column_left }}
+
+<div id="content">
+	<div class="page-header">
+		<div class="container-fluid">
+			<h1>{{ heading_title }}</h1>
+			<ol class="breadcrumb">
+		        {% for breadcrumb in breadcrumbs %}
+		        	<li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		        {% endfor %}
+	      	</ol>
+		</div>
+	</div><!-- end div .page-header -->
+	<div id="page-content" class="container-fluid">
+		{% if error_warning %}
+	    <div class="alert alert-danger alert-dismissible"><i class="fas fa-exclamation-circle"></i> {{ error_warning }}
+	      <button type="button" class="close" data-dismiss="alert">&times;</button>
+	    </div>
+	    {% endif %}
+
+		{% if success and success != '' %}
+		<div class="alert alert-success"><i class="fas fa-check-circle"></i> {{ success }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+
+		<div class="card card-default">
+			<div class="card-header">
+				<i class="fas fa-pencil-alt"></i> {{ heading_title }}
+			</div>
+			<div class="card-body" >
+			<div class="row">
+				<div class="col-sm-2">
+					<div class="logo"><h3>{{ heading_title }}</h3></div>
+					<div class="slidebar"><div class="sidebar-nav">
+	<ul class="nav nav-pills flex-column">
+		{% if menus is defined %}
+			{% for key,menu in menus %}
+				{% set class_active = '' %}
+				{% if menu_active is defined and menu_active == key %} {% set class_active = 'active' %} {% endif %}
+				<li class="{{ class_active }} nav-item"><a class="nav-link" href="{{ menu.link }}">{{ menu.title }}</a></li>
+			{% endfor %}
+		{% endif %}
+	</ul>
+</div></div>
+					<div class="clear clr"></div>
+				</div>
+
+				<div class="col-sm-10">
+					<div class="heading mb-3"><h3>{{ text_frontend_modules }}</h3></div>
+
+					<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form">
+					<div class="content row">
+						<div class="col-sm-2">
+							<ul class="nav nav-pills nav-stacked">
+								{% if extensions %}
+									{% for extension in extensions %}
+										{% if module_id is empty %} {% set actived = 'class="active"' %} {% else %} {% set actived = '' %} {% endif %}
+										<li {{ actived }}><a href="{{ extension.edit }}" ><i class="fas fa-plus-circle"></i> {{ extension.name }}</a></li>
+										{% set i = 0 %}
+									
+										{% for module in extension.module %}
+										{% if module.module_id == module_id %} {% set active = 'class="active"' %} {% else %} {% set active = '' %} {% endif %}
+										<li {{ active }}><a href="{{ module.edit }}" ><i class="fas fa-minus-circle"></i> {{ module.name }}</a></li>
+										{% endfor %}
+									{% endfor %}
+								{% endif %}
+							</ul>
+						</div>
+
+						<div class="col-sm-10">
+							<div class="float-end">
+
+								<a class="btn btn-success" title="" onclick="$('#form').submit();" data-toggle="tooltip" data-original-title="Save"><i class="fas fa-save"> Save </i></a>
+								{% if module_id is not empty %}
+								<a onclick="confirm('Are you sure?') ? location.href='{{ delete }}' : false;" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="{{ text_delete }}"><i class="fas fa-trash-alt"> {{ text_delete }} </i></a>
+								{% endif %}
+							</div>
+							<div class="clearfix"></div>
+							<hr>
+
+							<div class="tab-content" id="tab-content-newsletter">
+								<div class="tab-pane active" id="tab-module-newsletter">
+									<table class="table noborder">
+										<tr class="alert alert-warning row">
+											<td class="col-sm-2">
+												{{ text_display_mode }} 
+											</td>
+
+											<td class="col-sm-10">
+												<select name="displaymode" id="input-status" class="form-select">
+													{% for key,val in modes %}
+													{% if displaymode == key %} {% set selected = 'selected="selected"' %} {% else %} {% set selected = '' %} {% endif %}
+													<option {{ selected }} value="{{ key }}">{{ val }}</option>
+													{% endfor %}
+												</select>	
+											</td>
+										</tr>
+										<tr class="row">
+											<td class="col-sm-2">{{ entry_module_name }} </td>
+											<td class="col-sm-10">
+												<input class="form-control" type="text" placeholder="{{ entry_module_name }} " value="{{ name }}" name="name" />
+											</td>
+										</tr>
+										<tr class="row">
+											<td class="col-sm-2">
+											  	<label class="control-label" for="input-status">{{ entry_background_banner }}</label>
+											</td>
+											<td class="col-sm-10">
+											<div id="image" class="card image">
+                              <img src="{{ thumb }} " alt="" title="" id="thumb-image" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> <input type="hidden" name="banner" value="{{ banner }}" id="input-icon-menu" />
+                              <div class="card-body">
+                                <button type="button" data-oc-toggle="image" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-primary btn-sm btn-block"><i class="fas fa-pencil-alt"></i> {{ button_edit }}</button>
+                                <button type="button" data-oc-toggle="clear" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-warning btn-sm btn-block"><i class="fas fa-trash-alt"></i> {{ button_clear }}</button>
+                              </div>
+                            </div>
+												
+												
+											</td>
+										</tr>	
+										<tr class="row">
+											<td class="col-sm-2">{{entry_status }}</td>
+											<td class="col-sm-10">
+												<select name="status" id="input-status" class="form-select">
+													{% if status %}
+													<option value="1" selected="selected">{{ text_enabled }}</option>
+													<option value="0">{{ text_disabled }}</option>
+													{% else %}
+													<option value="1">{{ text_enabled }}</option>
+													<option value="0" selected="selected">{{ text_disabled }}</option>
+													{% endif %}
+												</select>
+											</td>
+										</tr>
+									</table>
+									<ul class="nav nav-tabs" id="language">
+										{% for language in languages %}
+										<li><a href="#tab-module-language-{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+										{% endfor %}
+									</ul>
+									<div class="tab-content">
+										{% for language in languages %}
+											<div id="language{{ language.language_id }}" class="tab-pane{% if loop.first %} active{% endif %}">
+												<div class="row mb-3">
+													 <label for="input-title{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_description }}</label>
+													<div class="col-sm-10">
+														<textarea name="module_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description-{{ language.language_id }}" data-oc-toggle="ckeditor" class="form-control">{{ module_description[language.language_id] ? module_description[language.language_id].description }}</textarea>
+													</div>
+												</div>
+												<div class="row">
+												 <label for="input-title{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_description_bottom }}</label>
+													<div class="col-sm-10">
+														<textarea name="module_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description-{{ language.language_id }}" data-oc-toggle="ckeditor" class="form-control">{{ module_description[language.language_id] ? module_description[language.language_id].description }}</textarea>
+														<span class="help">{{ about_entry_description_bottom }} </span>
+													</div>
+											
+											</div>
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</form>
+				</div>
+				</div>
+			</div><!-- end div .panel-body -->
+		</div><!-- end div .panel -->
+	</div><!-- end div #page-content -->
+
+</div><!-- end div #content -->
+<script type="text/javascript"><!--
+$('textarea[data-oc-toggle=\'ckeditor\']').ckeditor();
+//--></script>
+<style type="text/css">
+	.noborder tbody > tr > td {border: 1px solid #fff;}
+	.help {font-style:italic;}
+</style>
+{{ footer }}

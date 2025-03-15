@@ -1,0 +1,28 @@
+<div class="discount-today">
+<div class="container">
+  <div class="row">
+    <h2 class="heading"> 
+      <span>Our Selection</span>
+      <a class="btn btn-primary btn-section" href="#" tabindex="0">Show more product<img alt="service icon" src="image/catalog/right-arrow.svg"></a>
+    </h2>
+  <div class="col-md-6 col-xs-12">
+    {% for banner in banners %}
+      <div class="beffect">
+        <div class="lleft-b">
+        {% if banner.link %}
+          <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/></a>
+        {% else %}
+          <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/></a>
+        {% endif %}                 
+        </div>
+       <div class="banner-description left-b"> 
+         
+           {{ banner.description }}      
+      </div>
+
+      </div>
+    {% endfor %}
+  </div>
+
+
+

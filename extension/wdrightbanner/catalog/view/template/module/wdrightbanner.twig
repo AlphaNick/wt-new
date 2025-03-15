@@ -1,0 +1,29 @@
+<div class="right-banner">
+  <div class="container">
+  <div class="row">
+    <h2 class="heading"> 
+      <div class="heading-ctn">
+        <span>Our Loved product</span>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+      </div>
+      <a class="btn btn-primary btn-section" href="#" tabindex="0">Show more product<img alt="service icon" src="image/catalog/right-arrow.svg"></a>
+    </h2>
+  {% for banner in banners %}
+  <div class="col-md-4 col-xs-12">
+    <div class="beffect">
+      <div class="rright-b">
+      {% if banner.link %}
+        <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/></a>
+      {% else %}
+         <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/></a>
+      {% endif %}
+      </div>
+      <div class="banner-description rbnr-ctn">
+           {{ banner.description }} 
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+</div>

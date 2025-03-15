@@ -1,0 +1,17 @@
+<div class="best-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12">
+				<h2 class="heading"> 
+					<span>Today Discounts</span>
+					<a class="btn btn-primary btn-section" href="#" tabindex="0">Show more product<img alt="service icon" src="image/catalog/right-arrow.svg"></a>
+				</h2>
+				<div class="best rless">
+				{% for product in products %}
+				<div class="col cless">{{ product }}</div>
+				{% endfor %}
+				</div>
+			</div>			
+		</div>
+	</div>		
+</div>

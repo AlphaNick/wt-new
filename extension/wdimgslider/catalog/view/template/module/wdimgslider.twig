@@ -1,0 +1,30 @@
+<div class="s-panel">
+{# <div class="loader wrloader"></div> #}
+        <div class="imgslider">
+          {% for banner in banners %}
+      <div class="sliderel">
+            <div>                        
+              <div class="slideimg">
+              {% if banner.link %}
+                <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/></a>
+              {% else %}
+                <img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/>
+              {% endif %}
+              </div>
+            <div class="container">
+            <div class="row">
+            <div class="slidertext">
+              <div class="slideff">
+                 <div class="slidesmall">
+                {{ banner.description }}
+              {# <a href="{{ banner.link }}" class="btn btn-primary">{{ shop_now }}</a>  #}
+              </div>
+              </div>
+            </div>
+              </div>
+            </div>  
+            </div>     
+       </div>
+          {% endfor %}
+        </div>
+    </div>    

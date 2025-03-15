@@ -1,0 +1,142 @@
+{{ header }}
+<div class="bg-white pb-30">
+
+ <!-- Breadcrumb -->
+ <div class="blog-page-bg">
+    <div class="container">
+<div class="d-flex justify-content-between align-items-center back-page">
+  <div class="">
+  <div class="back-to-home">
+      <a href="{{ home }}"><img src="image/catalog/back-to-home.svg" alt="Back to home"> &nbsp <span> {{ back_to_main }}</span></a>
+   </div>  
+  </div>
+  <div class="">
+    <ul class="breadcrumb ">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>  
+  </div> 
+</div>
+<div class="blog-ctn">
+    <h2>Top sneakers trends for 2022 year</h2>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard...</p>
+</div>
+</div>
+</div>
+<!-- Breadcrumb end -->
+<div class="container">
+    <div class="row">
+        {{ column_left }}
+        {% if column_left and column_right %}
+            {% set class = 'col-sm-6' %}
+        {% elseif column_left or column_right %}
+            {% set class = 'col-sm-9' %}
+        {% else %}
+            {% set class = 'col-sm-12' %}
+        {% endif %}
+
+        <div id="content" class="{{ class }} workdo-single-blog acpage">
+            {{ content_top }}
+            <div class="row">
+            <div class="col-sm-6 col-md-8 col-lg-8 col-xs-12 blogsticky">
+            
+            <div class="workdo-single-blog">
+                 <div class="sngblog">
+                    <h3 class="headingpage">{{ heading_title }}</h3>
+                    <p>{{ description }}</p>
+                 </div>
+                {% if blogs.image %}
+                    <div class="workdo-blog-image">
+                        <img src="{{ blogs.image }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" />
+                    </div>
+                {% endif %}
+                   
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-4 col-xs-12 blogal">
+                {% if success %}
+                    <div class="alert alert-success">
+                        <i class="fa fa-check-circle"></i> {{ success }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endif %}
+
+                {% if blog_comments %}
+                    <h3 class="blog-comment">{{ text_your_comments }}</h3>
+                    <div class="bcomment">
+                    {% for blog_comment in blog_comments %}
+                        <div class="view-comment">
+                            <div class="blogu"><i class="fa fa-user"></i><span>{{ blog_comment.author }}</span></div>
+                            <div class="date"><i class="fa fa-calendar"></i><span>{{ blog_comment.date_added }}</span></div>
+                            <div class="comm"><i class="fa fa-comments-o pull-left"></i><div class="wco">{{ blog_comment.comment }}</div></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if allow_comments %}
+                    <div class="block-title">
+                        <h3>
+                           {{ button_comment_add }}
+                        </h3>
+                    </div>
+                    <div class="panel panel-default" id="add-comment-blog" style="margin-bottom: 10px;">
+                        {% if (login_required and not is_logged) %}
+                            <h4 class="text-center">{{ text_login_required }}</h4>
+                        {% else %}
+                            <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="form-group required" style="margin-top: 10px;">
+                                    <div>
+                                        <input type="text" name="author" value="{{ author }}" id="input-author" placeholder="{{ entry_author }}" class="form-control" />
+                                        {% if error_author %}
+                                            <div class="text-danger">{{ error_author }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group required" style="margin-top: 10px;">
+                                    <div>
+                                        <input type="text" name="email" value="{{ email }}" id="input-email" placeholder="{{ entry_email }}" class="form-control" />
+                                        {% if error_email %}
+                                            <div class="text-danger">{{ error_email }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 10px;">
+                                    <div>
+                                        <textarea name="comment" rows="10" id="input-comment" class="form-control"  value="{{ entry_comment }}" placeholder="{{ entry_comment }}"/>
+                                        </textarea>
+                                        {% if error_comment %}
+                                            <div class="text-danger">
+                                                {{ error_comment }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {{ captcha }}
+                                <input type="hidden" name="auto_approve" value="{{ auto_approve }}" />
+                                <div class="buttons text-left">
+                                    <input class="btn btn-primary" type="submit" value="{{ button_submit }}" data-toggle="tooltip" title="{{ button_submit }}" />
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+                        {#
+                            <div class="buttons text-right">
+                                <button type="button" onclick="$('#add-comment').slideToggle();" class="btn btn-primary">
+                                    {{ button_comment_add }}
+                                </button>
+                            </div>
+                        #}
+                {% endif %}
+            </div>
+        </div>
+            </div>
+                 </div>
+            {{ content_bottom }}
+        </div>
+        {{ column_right }}
+    </div>
+</div>
+</div>
+{{ footer }}

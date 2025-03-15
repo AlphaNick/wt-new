@@ -1,0 +1,30 @@
+<div class="bg-white section-mt wdcategory-tb">
+<div class="container">
+<h2 class="heading"> 
+	<span>{{ heading_title }}</span>
+	<a class="btn btn-primary btn-section" href="#" tabindex="0">Show more categories<img alt="service icon" src="image/catalog/right-arrow.svg"></a>
+</h2>
+<div class="row">		
+	<div class="wdcategory p-0">
+	 {% for item in items %}
+		<div class="wd-item-layout col-2 cless">
+			<div class="wd-item-thumb">
+				<div class="wd-item-img">
+					<a href="{{ item.href }}">
+						<img src="{{ item.thumb }}" alt="{{ item.title }}" title="{{ item.title }}" class="mx-auto img-fluid" />
+					</a>
+				</div>
+				<div class="wd-item-caption">
+					<h4 class="wd-item-title"><a href="{{ item.href }}">{{ item.title }}</a></h4>
+					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+					<a href="{{ item.href }}" class="btn btn-primary btn-cate-item">Go to Category <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+					{# <h6 class="catepro">{{item.totalp}} {{catepro}}</h6> #}
+					{# <p class="giant-item-subtitle">{{ item.subtitle }}</p> #}
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>	
+</div>
+</div>
+</div>

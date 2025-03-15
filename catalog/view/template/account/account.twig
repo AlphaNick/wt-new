@@ -1,0 +1,140 @@
+{{ header }}
+<div class="bg-white pb-50">
+<div id="account-account" class="container acpage">
+<!-- Breadcrumb -->
+<div class="d-flex justify-content-between align-items-center back-page">
+  <div class="">
+  <div class="back-to-home">
+      <a href="{{ home }}"><img src="image/catalog/back-to-home.svg" alt="Back to home"> &nbsp <span> {{ back_to_main }}</span></a>
+   </div>  
+  </div>
+  <div class="">
+    <ul class="breadcrumb ">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>  
+  </div> 
+</div>
+<!-- Breadcrumb end -->
+  {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fas fa-check-circle"></i> {{ success }}</div>
+  {% endif %}
+  <div class="row"> {{ column_left }}
+     {% if column_left and column_right %}
+    {% set class = 'col-sm-12 col-md-6  col-xs-12 colright accw' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-12 col-md-9 col-lg-9  col-xs-12 colright' %}
+    {% else %}
+    {% set class = 'col-xs-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">
+      <div class="acco">
+      {{ content_top }}
+      <h2 class="achead">{{ text_my_account }}</h2>
+      <div class="row accrow">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <a href="{{ edit }}">
+          <span><img src="image/catalog/account/user.svg" alt="user"></span>
+          <span>{{ text_edit }}<br><span>edit your account</span></span>
+        </a>
+         </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ password }}">
+            <span><img src="image/catalog/account/lock.svg" alt="user"></span>
+            <span>{{ text_password }}<br><span>Change Your Passowrd</span></span>
+          </a>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ address }}">
+            <span><img src="image/catalog/account/route.svg" alt="route"></span>
+            <span>{{ text_address }}<br><span>Edit your address</span></span>
+          </a>
+        </div>
+       {#  <li><a href="{{ payment_method }}">{{ text_payment_method }}</a></li> #}
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ newsletter }}">
+            <span><img src="image/catalog/account/keyboard.svg" alt="route"></span>
+            <span>{{ text_newsletter }}<br><span>subscribe for newsletter</span></span>
+          </a>
+        </div>
+       
+     </div>
+      {% if credit_cards %}
+      <h2 class="achead">{{ text_credit_card }}</h2>
+      <ul class="list-unstyled accolor">
+        {% for credit_card in credit_cards %}
+        <li><a href="{{ credit_card.href }}">{{ credit_card.name }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <h2 class="achead">
+        {{ text_my_orders }}
+      </h2>
+     <div class="row accrow">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ order }}">
+            <span><img src="image/catalog/account/box.svg" alt="box"></span>
+            <span>{{ text_order }}<br><span>See your order history</span></span>
+          </a>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ download }}">
+            <span><img src="image/catalog/account/download.svg" alt="download"></span>
+            <span>{{ text_download }}<br><span>Download Your Theme</span></span>
+          </a>
+        </div>
+        {% if reward %}
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ reward }}">
+            <span><img src="image/catalog/account/star.svg" alt="star"></span>
+            <span>{{ text_reward }}<br><span>Count Reward Point</span></span>
+          </a>
+        </div>
+        {% endif %}
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ return }}">
+            <span><img src="image/catalog/account/insert.svg" alt="insert"></span>
+            <span>{{ text_return }}<br><span>See your Return</span></span>
+          </a>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ transaction }}">
+            <span><img src="image/catalog/account/cabinet.svg" alt="cabinet"></span>
+            <span>{{ text_transaction }}<br><span>See your Transaction</span></span>
+          </a>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+          <a href="{{ affiliate }}">
+            <span><img src="image/catalog/account/recurring.svg" alt="recurring"></span>
+            <span>{{ text_my_affiliate }}<br><span>Affiliate Marketing </span></span>
+          </a>
+        </div>
+      </div>
+      {# {% if affiliate %}
+        <h2>
+          {{ text_my_affiliate }}
+        </h2>
+        <ul class="list-unstyled">
+          {% if not tracking %}
+            <li><a href="{{ affiliate }}">{{ text_affiliate_add }}</a></li>
+          {% else %}
+            <li><a href="{{ affiliate }}">{{ text_affiliate_edit }}</a></li>
+            <li><a href="{{ tracking }}">{{ text_tracking }}</a></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+      <h2>
+        {{ text_my_newsletter }}
+      </h2>
+      <ul class="list-unstyled">
+        <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+      </ul> #}
+      {{ content_bottom }}
+    </div>
+  </div>
+    {{ column_right }}
+  </div>
+</div>
+</div>
+{{ footer }}

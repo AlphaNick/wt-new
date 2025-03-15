@@ -1,0 +1,39 @@
+  {{ header }}
+  <div class="contact-top-bg pb-30">
+    <div class="container">
+      <div class="">
+  <!-- Breadcrumb -->
+  <div class="d-flex justify-content-between align-items-center back-page">
+    <div class="">
+    <div class="back-to-home">
+        <a href="{{ home }}"><img src="image/catalog/back-to-home.svg" alt="Back to home"> &nbsp <span> {{ back_to_main }}</span></a>
+     </div>  
+    </div>
+    <div class="">
+      <ul class="breadcrumb ">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>  
+    </div> 
+  </div>
+        <!-- Breadcrumb end -->
+        <h1 class="other-title mb-3">{{ heading_title }}</h1> 
+        <div class="contact-desc">
+          <p>{{ contact_desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white information">
+  <div id="information-information" class="container">
+  <!-- Breadcrumb -->
+  <!-- Breadcrumb end -->
+    <div class="row">{{ column_left }}
+      <div id="content" class="col">{{ content_top }}
+        <h1>{{ heading_title }}</h1>
+        {{ description }}{{ content_bottom }}</div>
+      {{ column_right }}</div>
+  </div>
+  </div>
+  {{ footer }}

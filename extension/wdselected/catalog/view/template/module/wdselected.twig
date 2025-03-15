@@ -1,0 +1,17 @@
+<div class="bg-white selected-products section-mt">
+<div class="container">
+	<div class="">
+		<h2 class="center-heading">{{ heading_title }}</h2>
+		<div class="csection-bottomtitle text-center">
+			Looking for that perfect gift for a foodie or guy who loves everything from sandwiches to beer? We've got you covered! These must-have items will make any kitchen or pantry smile (and look) again.
+		</div>
+		<div class="rless">
+		  <div class="wdselected">
+			  {% for product in products %}
+			    <div class="col cless">{{ product }}</div>
+			  {% endfor %}
+		  </div>
+		</div>	
+	</div>
+</div>
+</div>

@@ -1,0 +1,105 @@
+<form method="post" data-oc-toggle="ajax" data-oc-load="{{ cart }}" data-oc-target="#header-cart">
+  <div class="product-thumb">
+        <div class="image">
+        <!-- Save Price start -->
+        <!-- {% if price %}
+           {% if special %}            
+             <span class="you-save"> Save {{ save }}</span> 
+          {% endif %}
+        {% endif %} -->
+        <!-- Save Price end --> 
+      <div class="button-group">
+        <button type="submit" formaction="{{ add_to_wishlist }}" data-bs-toggle="tooltip" title="{{ button_wishlist }}">
+        <img src="image/catalog/wishlist.svg" alt=""></button>
+        <button type="submit" formaction="{{ add_to_compare }}" data-bs-toggle="tooltip" title="{{ button_compare }}">
+          <img src="image/catalog/compare.svg" alt="compare">
+        </button>
+      </div>
+      <a href="{{ href }}">
+        {# <img src="{{ thumb }}" alt="{{ name }}" title="{{ name }}" class="img-fluid"/> #}
+        {% if images %}
+          {# Webibazaar Custom Code 15-12-2022#}
+          {% for image in images %}
+            <div class="second-image">
+              <img src="{{ image.additional }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-fluid"/>
+              {# <img src="{{ image.thumb }}" title="{{ heading_title }}" alt="{{ heading_title }}" class="img-thumbnail"/> #}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </a>
+    </div>
+    <div class="caption">
+      <div class="bran">
+        <span><a href="{{ manufacturer_id }}" class="textdeb">{{ manufacturer }}</a></span>
+      </div> 
+        <!-- discount % start -->
+        <!-- {% if price %}
+           {% if special %}
+            <span class="discount-onprice">{{ discount }}%</span>            
+          {% endif %}
+        {% endif %} -->
+        <!-- discount % end -->
+        <h4 class="protitle"><a href="{{ href }}">{{ name }}</a></h4>
+        {% if review_status %}
+          <div class="rating">
+            {% for i in 1..5 %}
+                {% if rating < i %}
+                <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
+              {% else %}
+                <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
+              {% endif %}
+              {% endfor %}               
+              <span class="rate-tot">({{ tab_review }})</span>
+          </div>
+        {% endif %} 
+        <p class="catlist-des">{{ description }}</p>
+
+        {% if price %}
+          <div class="price">
+            {% if not special %}
+              <span class="price-new">{{ price }}</span>
+            {% else %}
+              <span class="price-new">{{ special }}</span> <span class="price-old">{{ price }}</span>
+            {% endif %}
+            {# {% if tax %}
+              <span class="price-tax">{{ text_tax }} {{ tax }}</span>
+            {% endif %} #}
+          </div>
+        {% endif %}
+      {# Start workdo Option #}
+      <div class="web_option select-product-option">
+        {% if options %}
+          {% for option in options %}
+            {% if option.type == 'select' %}
+               <div class="{% if option.required %} required{% endif %}">
+                <label for="input-option-{{ option.product_option_id }}" class="form-label">{{ option.name }}</label> <select name="option[{{ option.product_option_id }}]" id="input-option-{{ option.product_option_id }}" class="form-select">
+                  <option value="">{{ text_select }}</option>
+                  {% for option_value in option.product_option_value %}
+                    <option value="{{ option_value.product_option_value_id }}">{{ option_value.name }}
+                      {% if option_value.price %}
+                        ({{ option_value.price_prefix }}{{ option_value.price }})
+                      {% endif %}</option>
+                  {% endfor %}
+                </select>
+                <div id="error-option-{{ option.product_option_id }}" class="invalid-feedback"></div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        <div class="wrap input-group">
+          <button type="button" id="sub" class="sub btn">-</button>
+          <input name="quantity" class="count form-control" type="text" id="1" value="1" min="1" />
+          <button type="button" id="add" class="add btn">+</button>
+        </div>
+      </div>
+      {# End workdo Option #}
+      <div class="homeadd d-flex justify-content-between align-items-center">
+        
+        <button type="submit" formaction="{{ add_to_cart }}" data-bs-toggle="tooltip" class="cartb"><span>{{ button_cart }} <i class="fa fa-angle-right" aria-hidden="true"></i> </span> </button>
+      </div>
+    </div>
+    <input type="hidden" name="product_id" value="{{ product_id }}"/>
+    {# <input type="hidden" name="quantity" value="{{ minimum }}"/> #}
+  </div>
+</form>
+

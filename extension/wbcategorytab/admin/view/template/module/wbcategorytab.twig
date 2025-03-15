@@ -1,0 +1,136 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fas fa-save"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i class="fas fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_edit }}</div>
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="row mb-3">
+            <label for="input-name" class="col-sm-2 col-form-label">{{ entry_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+              {% if error_name %}
+              <div class="text-danger">{{ error_name }}</div>
+              {% endif %}
+            </div>
+          </div> 
+
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-category"><span data-toggle="tooltip" title="{{ help_category }}">{{ entry_category }}</span></label>
+            <div class="col-sm-10">
+              <input type="text" name="category_name" value="" placeholder="{{ entry_category }}" id="input-category" class="form-control" />
+              {% if error_category %}
+              <div class="text-danger">{{ error_category }}</div>
+              {% endif %}
+              <div class="form-control p-0" style="height: 150px; overflow: auto;">
+              <table  id="category-tab" class="table table-sm m-0">
+                <tbody>
+                {% for category in categories %}
+                <tr id="category-tab{{ category.category_id }}">
+                  <td>{{ category.name }}<input type="hidden" name="category[]" value="{{ category.category_id }}" /></td>
+                  <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fas fa-minus-circle"></i></button></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              </table>
+            </div>
+            </div>
+          </div>
+
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-limit">{{ entry_limit }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="limit" value="{{ limit }}" placeholder="{{ entry_limit }}" id="input-limit" class="form-control" />
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-width">{{ entry_width }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="width" value="{{ width }}" placeholder="{{ entry_width }}" id="input-width" class="form-control" />
+              {% if error_width %}
+              <div class="text-danger">{{ error_width }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-height">{{ entry_height }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="height" value="{{ height }}" placeholder="{{ entry_height }}" id="input-height" class="form-control" />
+              {% if error_height %}
+              <div class="text-danger">{{ error_height }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="input-status">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" id="input-status" class="form-control">
+                {% if status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <script type="text/javascript"><!--
+$('input[name=\'category_name\']').autocomplete({
+  source: function(request, response) {
+
+    $.ajax({
+      url: 'index.php?route=catalog/category|autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item['name'],
+            value: item['category_id']
+          }
+        }));
+      }
+    });
+  },
+  select: function(item) {
+    $('input[name=\'category_name\']').val('');
+    
+    $('#category-tab' + item['value']).remove();
+    
+    $('#category-tab').append('<div id="category-tab' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="category[]" value="' + item['value'] + '" /></div>'); 
+  }
+});
+  
+$('#category-tab').delegate('.fa-minus-circle', 'click', function() {
+  $(this).parent().remove();
+});
+
+
+//--></script></div>
+{{ footer }}

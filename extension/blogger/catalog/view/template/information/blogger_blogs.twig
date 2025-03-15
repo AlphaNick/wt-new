@@ -1,0 +1,95 @@
+{{ header }}
+<div class="bg-white pb-30">
+ <!-- Breadcrumb -->
+ <div class="blog-page-bg only-blog">
+    <div class="container">
+<div class="d-flex justify-content-between align-items-center back-page">
+  <div class="">
+  <div class="back-to-home">
+      <a href="{{ home }}"><img src="image/catalog/back-to-home.svg" alt="Back to home"> &nbsp <span> {{ back_to_main }}</span></a>
+   </div>  
+  </div>
+  <div class="">
+    <ul class="breadcrumb ">
+      {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>  
+  </div> 
+</div>
+<div class="blog-ctn">
+    <h2>Top sneakers trends for 2022 year</h2>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard...</p>
+</div>
+</div>
+</div>
+<!-- Breadcrumb end -->
+<div class="container">
+    <div class="row">
+        {{ column_left }}
+        {% if column_left and column_right %}
+            {% set class = 'col-sm-6' %}
+        {% elseif column_left or column_right %}
+            {% set class = 'col-sm-9' %}
+        {% else %}
+            {% set class = 'col-sm-12' %}
+        {% endif %}
+        <div id="content" class="{{ class }}">
+            {{ content_top }}
+        <h2 class="heading">
+           <span>{{ text_blogs }}</span>
+        </h2>
+        {% if blogs %}
+            {% for blog in blogs %}
+                <div class="row panel-default workdo_blog_page rless">
+                    {# <h4>{% blog.name %}</h4> #}
+                    {% if blog.blog_data %}
+                        {% for topic in blog.blog_data %}
+                            <div class="panel panel-default col-lg-3">
+                                <div class="panel-body blog-thumbnail">
+                                    <div class="wbblogimg">
+                                        {% if topic.image %}
+                                            <div class="workdo-blog-image">
+                                                <div class="blog-post-image-hover"> </div>
+                                                <img src="{{ topic.image }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" />
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="allcomment">
+                                     <div class="blog_links">                                      
+                                        <span class="blog_comment">
+                                           {{ topic.total_comments }} {{ entry_comment }}
+                                        </span>
+                                        <span class="write-comment">
+                                            <a href="{{ topic.href }}">
+                                                <i class="fa fa-comment"></i>{{ text_comment }}
+                                            </a>
+                                        </span>
+                                        </div>
+                                        <h4><a href="{{ topic.href }}">{{ topic.title }}</a></h4>
+                                        <div class="blog-desc">{{ topic.description }}</div>
+                                       <div class="blog-bottom">
+                                           <div class="read-more"> <a href="{{ topic.href }}" class="btn btn-primary read_more">{{ text_read_more }} <i class="fa fa-angle-right" aria-hidden="true"></i></a> <div class="date-time blogdt">                                              
+                                           </div></div>
+                                           <span class="blog-date">{{ topic.date_added }}</span>
+                                       </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="panel-body text-center">{{ text_no_blogs }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            {% else %}
+                <div class="panel-body text-center">{{ text_no_blogs }}</div>
+            {% endif %}
+            {{ content_bottom }}
+        </div>
+        {{ column_right }}
+    </div>
+</div>
+</div>
+{{ footer }}

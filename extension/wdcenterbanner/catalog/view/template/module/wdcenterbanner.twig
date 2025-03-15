@@ -1,0 +1,24 @@
+<div class="container section-mt center-p">
+<div class="row">
+  {% for banner in banners %}
+  <div class="col-md-6 col-xs-12 d-flex align-content-center flex-wrap">
+     <div class="banner-description">
+         {{ banner.description }}
+    </div>
+  </div>
+  <div class="col-md-6 col-xs-12">
+    <div class="beffect">
+      <div class="centerimg">
+      {% if banner.link %}
+        <a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/></a>
+      {% else %}
+        <img src="{{ banner.image }}" alt="{{ banner.title }}" class="mx-auto img-fluid"/>
+      {% endif %}
+      </div>
+    </div>  
+  </div>
+  {% endfor %}
+</div>
+</div>
+
+

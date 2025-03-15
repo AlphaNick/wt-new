@@ -1,0 +1,307 @@
+{{ header }}{{ column_left }}
+<div id="content">
+<style type="text/css">
+.toggle-button i::before {content: "\f057";font-family: 'FontAwesome';color: #c72f1d;}
+.toggle-button input:checked + i::before {content: "\f058"; color: #2ABB9B}
+.toggle-button i {
+    font-style: normal;
+    font-size: 20px;
+}
+.toggle-button input {
+    display: none;
+}
+.toggle-button {
+    cursor: pointer;
+}
+.scroll-wrapper {
+	position: relative;
+}
+.scroll {
+	overflow: auto;
+	height: 150px;
+	min-height: 150px;
+	margin: 0;
+	transition: 0.3s all;
+}
+.scroll-footer {
+	position: absolute;
+	bottom: 0;
+	padding: 3px 0;
+	width: 245px;
+	border-radius: 30px;
+	left: 0;
+	text-align: center;
+	right: 0;
+	z-index: 9;
+	margin: auto;
+	background-color: rgba(255, 255, 255, 0.5);
+}
+.scroll-footer a {
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 10px;
+	border: 1px solid #ddd;
+	margin: 0 3px;
+}
+.scroll-footer .expand-switcher {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	padding: 0;
+	vertical-align: middle;
+}
+</style>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fas fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light"><i class="fas fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fas fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fas fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="card panel-default">
+      <div class="card-header">
+        <i class="fas fa-pencil"></i> {{ text_edit }}
+      </div>
+      <div class="card-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+          <div class="form-group row mb-3 align-items-center">
+            <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+              {% if error_name %}
+              <div class="text-danger">{{ error_name }}</div>
+              {% endif %}
+            </div>
+          </div>
+					<div class="form-group row mb-3 align-items-center">
+						<label class="col-sm-2 control-label">{{ entry_section_name }}</label>
+						<div class="col-sm-10">
+							{% for language in languages %}
+							<div class="input-group"><span class="input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.title }}" /></span><input type="text" name="title[{{ language.language_id }}]" value="{{ title[language.language_id] ? title[language.language_id] }}" placeholder="{{ entry_section_name }}" class="form-control" /></div>
+							{% if error_title[language.language_id] %}
+							<div class="text-danger">{{ error_title[language.language_id] }}</div>
+							{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+          <div class="form-group row mb-3 align-items-center">
+            <label class="col-sm-2 control-label" for="input-width">{{ entry_width }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="width" value="{{ width }}" placeholder="{{ entry_width }}" id="input-width" class="form-control" />
+              {% if error_width %}
+              <div class="text-danger">{{ error_width }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group row mb-3 align-items-center">
+            <label class="col-sm-2 control-label" for="input-height">{{ entry_height }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="height" value="{{ height }}" placeholder="{{ entry_height }}" id="input-height" class="form-control" />
+              {% if error_height %}
+              <div class="text-danger">{{ error_height }}</div>
+              {% endif %}
+            </div>
+          </div>
+					<div class="form-group row mb-3 align-items-center">
+						<label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+						<div class="col-sm-10">
+							<select name="status" id="input-status" class="form-select">
+								{% if status %}
+								<option value="1" selected="selected">{{ text_enabled }}</option>
+								<option value="0">{{ text_disabled }}</option>
+								{% else %}
+								<option value="1">{{ text_enabled }}</option>
+								<option value="0" selected="selected">{{ text_disabled }}</option>
+								{% endif %}
+							</select>
+						</div>
+					</div>
+					<hr>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#">{{ tab_data }}</a></li>
+					</ul>
+					<div class="table-responsive">
+						<table class="table table-bordered table-hovered">
+							<thead>
+								<tr>
+									<td>{{ entry_title }}</td>
+									<td>{{ entry_subtitle }}</td>
+									<td>{{ entry_link }}</td>
+									<td>{{ entry_image }}</td>
+									<td>{{ entry_sort_order }}</td>
+									<td class="text-center">{{ entry_status }}</td>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody id="items-tbody">
+							{% set row = 0 %}
+							{% for item in items %}
+							<tr data-row="{{ row }}">
+								<td>
+								{% for language in languages %}
+								<div class="input-group"><span class="input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span><input type="text" name="items[{{ row }}][description][{{ language.language_id }}][title]" value="{{ item.description[language.language_id] ? item.description[language.language_id].title }}" placeholder="{{ entry_title }}" class="form-control" /></div>
+								{% endfor %}
+								</td>
+								<td>
+								{% for language in languages %}
+								<div class="input-group"><span class="input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span><input type="text" name="items[{{ row }}][description][{{ language.language_id }}][subtitle]" value="{{ item.description[language.language_id] ? item.description[language.language_id].subtitle }}" placeholder="{{ entry_title }}" class="form-control" /></div>
+								{% endfor %}
+								</td>
+								<td>
+									<select name="items[{{ row }}][type]" class="form-select mb-3 input-type">
+										{% for type in ['category', 'product', 'manufacturer', 'information', 'external'] %}
+										<option value="{{ type }}" {% if item.type == type %}selected="selected"{% endif %}>{{ type|capitalize }}</option>
+										{% endfor %}
+									</select>
+									<input type="text" placeholder="{{ entry_link }}" class="form-control input-autocomplete" value="{{ item.link_name ? item.link_name : item.link }}" />
+									<input style="display: none;" type="text" name="items[{{ row }}][link]" value="{{ item.link }}" class="form-control input-link" />
+								</td>
+								<td>
+								   <div id="image" class="card image">
+                              <img src="{{ item.thumb }} " alt="" title="" id="thumb-image{{ row }}" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> <input type="hidden" name="items[{{ row }}][image]" value="{{ item.image }}" id="input-image{{ row }}" />
+                              <div class="card-body">
+                                <button type="button" data-oc-toggle="image" data-oc-target="#input-image{{ row }}" data-oc-thumb="#thumb-image{{ row }}" class="btn btn-primary btn-sm btn-block"><i class="fas fa-pencil-alt"></i> {{ button_edit }}</button>
+                                <button type="button" data-oc-toggle="clear" data-oc-target="#input-image{{ row }}" data-oc-thumb="#thumb-image{{ row }}" class="btn btn-warning btn-sm btn-block"><i class="fas fa-trash-alt"></i> {{ button_clear }}</button>
+                              </div>
+                            </div>
+									
+								</td>
+								<td>
+									<input type="text" name="items[{{ row }}][sort_order]" value="{{ item.sort_order }}" placeholder="{{ entry_sort_order }}" class="form-control" />
+								</td>
+								<td class="text-center">
+									<label class="toggle-button"><input type="checkbox" name="items[{{ row }}][status]" value="1" {% if item.status %}checked="checked"{% endif %} /><i></i></label>
+								</td>
+								<td><a class="btn btn-danger button-delete-item"><i class="fas fa-trash-alt"></i></a></td>
+								{% set row = row + 1 %}
+							</tr>
+							{% endfor %}
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="7" class="text-right"><a id="button-add-item" class="btn btn-primary"><i class="fas fa-plus"></i> {{ button_add_item }}</a></td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript"><!--
+
+var row = {{ row }};
+$('#button-add-item').on('click', function() {
+	html = '<tr data-row="' + row + '">';
+	html += '<td>';
+	{% for language in languages %}
+	html += '<div class="input-group"><span class="input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span><input type="text" name="items[' + row + '][description][{{ language.language_id }}][title]" value="" placeholder="{{ entry_title }}" class="form-control" /></div>';
+	{% endfor %}
+	html += '</td>';
+	html += '<td>';
+	{% for language in languages %}
+	html += '<div class="input-group"><span class="input-group-text"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span><input type="text" name="items[' + row + '][description][{{ language.language_id }}][subtitle]" value="" placeholder="{{ entry_subtitle }}" class="form-control" /></div>';
+	{% endfor %}
+	html += '</td>';
+	html += '<td>';
+	html += '<select name="items[' + row + '][type]" class="form-control input-type">';
+	{% for type in ['category', 'product', 'manufacturer', 'information', 'external'] %}
+	html += '<option value="{{ type }}">{{ type|capitalize }}</option>';
+	{% endfor %}
+	html += '</select>';
+	html += '<input type="text" placeholder="{{ entry_link }}" class="form-control input-autocomplete" value="" />';
+	html += '<input style="display: none;" name="items[' + row + '][link]" value="" class="form-control input-link" />';
+	html += '</td>';
+
+    html += '  <td><div class="card image">';
+    html += '    <img src="{{ placeholder }}" alt="" title="" id="thumb-image' + row + '" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> <input type="hidden" name="items[' + row + '][image]" value="" id="input-image' + row + '"/>';
+    html += '    <div class="card-body">';
+    html += '      <button type="button" data-oc-toggle="image" data-oc-target="#input-image' + row + '" data-oc-thumb="#thumb-image' + row + '" class="btn btn-primary btn-sm btn-block"><i class="fas fa-pencil-alt"></i> {{ button_edit }}</button>';
+    html += '      <button type="button" data-oc-toggle="clear" data-oc-target="#input-image' + row + '" data-oc-thumb="#thumb-image' + row + '" class="btn btn-warning btn-sm btn-block"><i class="fas fa-trash-alt"></i> {{ button_clear }}</button>';
+    html += '    </div>';
+    html += '  </div></td>';
+
+	html += '<td>';
+	html += '<input type="text" name="items[' + row + '][sort_order]" value="" placeholder="{{ entry_sort_order }}" class="form-control" />';
+	html += '</td>';
+	html += '<td class="text-center"><label class="toggle-button"><input type="checkbox" name="items[' + row + '][status]" value="1" checked="checked" /><i></i></label></td>';
+	html += '<td><a class="btn btn-danger button-delete-item"><i class="fas fa-trash-alt"></i></a></td>';
+	html += '</tr>';
+	$('#items-tbody').append(html);
+	row++;
+});
+$(document).on('click', '.button-delete-item', function() {
+	if (confirm('{{ text_confirm }}')) {
+		$(this).parents('tr').remove();
+	}
+});
+$(document).on('change', '.input-type', function() {
+	var element = $(this);
+	var parent = element.parents('td');
+	parent.find('.dropdown-menu').remove();
+	parent.find('.input-autocomplete').removeAttr('autocomplete');
+	var type = element.val();
+	parent.find('.input-link, .input-autocomplete').hide();
+	if (type != 'external') {
+		parent.find('.input-autocomplete').show();
+	} else {
+		parent.find('.input-link').show();
+	}
+});
+
+$('.input-type').trigger('change'); 
+$(document).on('focus', '.input-autocomplete', function() {
+
+	var element = $(this);
+	var parent = element.parents('td');
+	var type = parent.find('.input-type option:selected').val();
+	element.removeAttr('autocomplete');
+	parent.find('.dropdown-menu').remove();
+	if (type != 'external') {
+		element.autocomplete({
+			'source': function(request, response) {
+				$.ajax({
+
+					url: 'index.php?route=catalog/' + type + '|autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+					dataType: 'json',
+					success: function(json) {
+						response($.map(json, function(item) {
+							return {
+								label: item['name'],
+								value: item[type + '_id']
+							}
+						}));
+						
+					}
+				});
+			},
+			'select': function(item) {
+				element.val(item['label']);
+				parent.find('.input-link').val(item['value']);
+			}
+		});
+	}
+});
+
+
+
+//--></script>
+{{ footer }}

@@ -1,0 +1,149 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="float-end">
+                <button type="submit" form="form-blogger" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        <h1>{{ heading_title }}</h1>
+            <ol class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+    {% if error_warning %}
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+   {% endif %}
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-pencil-alt"></i> {{ text_form }}
+        </div>
+        <div class="card-body">
+            <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-blogger" class="form-module">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a href="#tab-general" data-bs-toggle="tab" class="nav-link active">{{ tab_general }}</a></li>
+                    <li class="nav-item"><a href="#tab-data" data-bs-toggle="tab" class="nav-link">{{ tab_data }}</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-general">
+                        <ul class="nav nav-tabs">
+                            {% for language in languages %}
+                              <li class="nav-item"><a href="#language-{{ language.language_id }}" data-bs-toggle="tab" class="nav-link{% if loop.first %} active{% endif %}"><img src="{{ language.image }}" title="{{ language.name }}"/> {{ language.name }}</a></li>
+                            {% endfor %}
+                      </ul>
+                        <div class="tab-content">
+                            {% for language in languages %}
+                            <div id="language-{{ language.language_id }}" class="tab-pane{% if loop.first %} active{% endif %}">
+                               <div class="row mb-3 required">
+                                    <label for="input-name-{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_title }}</label>
+                                    
+                                    <div class="col-sm-10">
+                                        <input type="text" name="blogger_description[{{ language.language_id }}][title]" value="{{ blogger_description[language.language_id] ? blogger_description[language.language_id].title }}" data-oc-toggle="ckeditor"
+                                        placeholder="{{ entry_title }}" id="input-title{{ language.language_id }}" class="form-control" />
+                                            {% if error_title[language.language_id] %}
+                                                <div class="text-danger">{{ error_title.language.language_id }}</div>
+                                            {% endif %}
+                                    </div>
+                                </div>
+                                            <div class="row mb-3 required">
+                                                <label for="input-name-{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_description }}</label>
+                                                  <div class="col-sm-10">
+                                                    <textarea name="blogger_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" id="input-description{{ language.language_id }}" data-oc-toggle="ckeditor" data-toggle="summernote" class="form-control">{{ blogger_description[language.language_id] ? blogger_description[language.language_id].description }}</textarea>
+                                                    {% if error_description[language.language_id] %}
+                                                        <div class="text-danger">{{ error_description[language.language_id] }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-data">
+                                <div class="row mb-3 required">
+                                    <label for="input-name-{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_status }}</label>
+                                    <div class="col-sm-10">
+                                    <select name="status" id="input-status" class="form-select">
+                                        {% if status %}
+                                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                                        <option value="0">{{ text_disabled }}</option>
+                                        {% else %}
+                                        <option value="1">{{ text_enabled }}</option>
+                                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                </div>
+                                <div class="row mb-3 required">
+                                    <label for="input-name-{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_image }}</label> 
+
+                                       <div id="image" class="card image">
+                              <img src="{{ thumb }} " alt="" title="" id="thumb-image" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> <input type="hidden" name="image" value="{{ image }}" id="input-image" />
+                              <div class="card-body">
+                                <button type="button" data-oc-toggle="image" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-primary btn-sm btn-block"><i class="fas fa-pencil-alt"></i> {{ button_edit }}</button>
+                                <button type="button" data-oc-toggle="clear" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-warning btn-sm btn-block"><i class="fas fa-trash-alt"></i> {{ button_clear }}</button>
+                              </div>
+                            </div>
+                                </div>
+                                <div class="row mb-3 required">
+                                    <label for="input-name-{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_module }}</label> 
+                                    <div class="col-sm-10">
+                                        <select name="module_id" id="input-module" class="form-select">
+                                            <option value="">{{ text_unallocated }}</option>
+                                            {% for module in blogger_modules %}
+                                                <optgroup label="{{ module.name }}">
+                                                    {% for module in module.module %}
+                                                        {% if module.module_id == module_id %}
+                                                            <option value="{{ module.module_id }}" selected="selected">{{ module.name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ module.module_id }}">{{ module.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </optgroup>
+                                            {% endfor %}
+                                        </select>
+                                        {% if error_module %}
+                                            <div class="text-danger">{{ error_module }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('textarea[data-oc-toggle=\'ckeditor\']').ckeditor({
+        language:'{{ ckeditor }}'
+    });
+
+    // CKEditor readonly
+        if ($(this).is('[data-oc-toggle=\'ckeditor\']')) {
+            var editor = CKEDITOR.instances[$(this).attr('id')];
+
+            if (editor.editable() == undefined) {
+                editor.on('instanceReady', function () {
+                    this.setReadOnly(!$(element).prop('checked'));
+                });
+            } else {
+                editor.setReadOnly(!$(element).prop('checked'));
+            }
+        }
+</script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script> 
+<script type="text/javascript"><!--
+$('#language a:first').tab('show');
+//--></script>
+{{ footer }}
